@@ -6,18 +6,23 @@
         
         
         <script type="text/javascript" src="./js/jquery-3.6.0.js"></script>
-        <script type="text/javascript" src="https://github.com/XiaosongWen/AchoProject/blob/main/js/papaparse.min.js"></script>
+        <script type="text/javascript" src="./js/papaparse.min.js"></script>
  
   
-        <script type="text/javascript" src="https://github.com/XiaosongWen/AchoProject/blob/main/js/TableRender.js" > </script>
+        <script type="text/javascript" src="./js/TableRender.js" > </script>
         <script type="text/javascript" src="./js/ScrollBar.js" > </script>
-        <link href="https://github.com/XiaosongWen/AchoProject/blob/main/css/style.css" rel="stylesheet" type="text/css"/>         
+        <link href="./css/style.css" rel="stylesheet" type="text/css"/>         
             
         
         <script type = "text/javascript">
             $.ajax({
-                url: 'acho_export_virtual_scroll.csv',
+                url: "acho_export_virtual_scroll.csv",
+                type: 'GET',
                 dataType: 'text',
+                cors: true ,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }          
             }).done(successFunction);
             
             function successFunction(csv){
