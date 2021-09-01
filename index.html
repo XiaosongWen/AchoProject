@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Acho Interview Project</title>        
+        <script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
+        <script type="text/javascript" src="/js/papaparse.min.js"></script>
+        <!-- <script type="text/javascript" src="/js/DataGenerator.js" > </script> -->
+        <script type="text/javascript" src="/js/TableRender.js" > </script>
+        <script type="text/javascript" src="/js/ScrollBar.js" > </script>
+        <link href="/css/style.css" rel="stylesheet" type="text/css"/>         
+            
+        
+        <script type = "text/javascript">
+            $.ajax({
+                url: 'acho_export_virtual_scroll.csv',
+                dataType: 'text',
+            }).done(successFunction);
+            
+            function successFunction(csv){
+                let results = Papa.parse(csv)
+                let headers = results.data[0];
+                let data = results.data.slice(1);
+                // console.log(headers);
+                // console.log(data);
+                new VirtualScroller(headers, data);
+            }
+            class VirtualScroller{
+                constructor(headers, data){                    
+                    // let row = 10000;
+                    // let col = 500;
+                    this.table = document.getElementById("table");
+                    this.tableContainer = document.getElementById("tableContainer");
+                    this.headers = headers;
+                    this.data = data;                    
+                    this.containerSize = {width: table.offsetWidth, height: table.offsetHeight};   
+                    this.tableRenderer = new TableRender(this.tableContainer, this.containerSize, 
+                        this.headers, this.data, 30, 150);                    
+                    this.tableSize = this.tableRenderer.getSize();
+                    this.createVerticalScrollBarAndAddtoViews();
+                }
+                createVerticalScrollBarAndAddtoViews(){                    
+                    let vBar = new ScrollBar(this.tableRenderer)
+                    vBar.attachViews(this.table, this.tableContainer, this.tableSize);
+                }
+            }
+        </script>
+
+    </head>
+    <body>
+        <div id="table">
+            <div id="tableContainer"></div>
+        </div>
+    </body>
+</html>
