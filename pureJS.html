@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Acho Interview Project</title>        
+        <script type="text/javascript" src="/js/DataGenerator.js" > </script>
+        <script type="text/javascript" src="/js/TableRender.js" > </script>
+        <script type="text/javascript" src="/js/ScrollBar.js" > </script>
+        <style>            
+            #table{
+                width: 1620px;
+                height:530px;
+                overflow:hidden;
+                position:absolute;
+                border: 1px solid #0c0c0c
+            }
+            #tableContainer{
+                position:absolute
+            }
+            .cell{
+                position: absolute;
+                overflow: hidden;
+                background-color: white;
+                border: 1px solid #dddddd;
+                color: #aaaaaa;
+                width: 150px;
+                text-align: center;                
+                font-family: Arial;
+                font-size: "10pt";
+            }           
+
+            .scrollBar{
+                position: absolute;
+                background-color: #dddddd;
+                border: 1px solid #aaaaaa;
+                cursor: default;
+                top: 0px;
+                /* z-index: 1000; */
+            }
+            .ticker{
+                position: absolute;
+                background-color: #0c0c0c;
+                left: 0px;
+                top: 0px;
+                /* z-index: 1002; */
+            }
+        </style>
+        <script type = "text/javascript">
+            document.onreadystatechange = () => {
+                if (document.readyState === 'complete') {                    
+                    new VirtualScroller();
+                }
+            };
+            class VirtualScroller{
+                constructor(){                    
+                    this.table = document.getElementById("table");
+                    this.tableContainer = document.getElementById("tableContainer");
+                    this.data = new DataGenerator().data;
+                    this.containerSize = {width: table.offsetWidth, height: table.offsetHeight};   
+                    this.tableRenderer = new TableRender(this.tableContainer, this.containerSize, 
+                                    this.data, 30, 150);                    
+                    this.tableSize = this.tableRenderer.getSize();
+                    // console.log(this.tableSize)
+                    this.createVerticalScrollBarAndAddtoViews();
+                }
+                createVerticalScrollBarAndAddtoViews(){                    
+                    let vBar = new ScrollBar(this.tableRenderer)
+                    vBar.attachViews(this.table, this.tableContainer, this.tableSize);
+                }
+            }
+        </script>
+
+    </head>
+    <body>
+        <!-- <h1>Virtual Scroller</h1> -->
+        <div id="table">
+            <div id="tableContainer"> </div>
+        </div>    
+    </body>
+</html>
