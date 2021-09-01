@@ -16,13 +16,8 @@
         
         <script type = "text/javascript">
             $.ajax({
-                url: "acho_export_virtual_scroll.csv",
-                type: 'GET',
-                dataType: 'text',
-                cors: true ,
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                }          
+                url: "acho_export_virtual_scroll.csv",                
+                dataType: 'text',       
             }).done(successFunction);
             
             function successFunction(csv){
