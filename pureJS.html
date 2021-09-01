@@ -53,9 +53,11 @@
             };
             class VirtualScroller{
                 constructor(){                    
+                    let row = 10000;
+                    let col = 500;
                     this.table = document.getElementById("table");
                     this.tableContainer = document.getElementById("tableContainer");
-                    this.data = new DataGenerator().data;
+                    this.data = new DataGenerator(10000, 500).data;
                     this.containerSize = {width: table.offsetWidth, height: table.offsetHeight};   
                     this.tableRenderer = new TableRender(this.tableContainer, this.containerSize, 
                                     this.data, 30, 150);                    

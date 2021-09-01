@@ -1,10 +1,10 @@
 class DataGenerator {
-  constructor() {
+  constructor(r, c) {
     this.data = { columns: [], rows: [] };
-    this.randomData();
+    this.randomData(r, c);
   }
 
-  randomData() {
+  randomData(r, c) {
     this.data.columns.push("index");
     const dataTypes = [
       "index", 
@@ -17,11 +17,11 @@ class DataGenerator {
       "balance",
       "url",
     ];
-    for (let i = 1; i < 100; i++) {
+    for (let i = 1; i < c; i++) {
       let random = Math.floor(Math.random() * dataTypes.length);
       this.data.columns.push(dataTypes[random]);
     }
-    for (let index = 0; index < 1000; index++) {
+    for (let index = 0; index < r; index++) {
       let row = [];
       for (let i = 0; i < this.data.columns.length; i++) {
         switch (this.data.columns[i]) {
