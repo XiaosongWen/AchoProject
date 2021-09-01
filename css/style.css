@@ -1,0 +1,37 @@
+#table{
+    width: 90%;
+    height:90%;
+    overflow:hidden;
+    position:absolute;
+    border: 1px solid #0c0c0c
+}
+#tableContainer{
+    position:absolute
+}
+.cell{
+    position: absolute;
+    overflow: hidden;
+    background-color: white;
+    border: 1px solid #dddddd;
+    color: #aaaaaa;
+    width: 150px;
+    text-align: center;                
+    font-family: Arial;
+    font-size: "10pt";
+}           
+
+.scrollBar{
+    position: absolute;
+    background-color: #dddddd;
+    border: 1px solid #aaaaaa;
+    cursor: default;
+    top: 0px;
+    z-index: 10;
+}
+.ticker{
+    position: absolute;
+    background-color: #0c0c0c;
+    left: 0px;
+    top: 0px;
+    z-index: 15;
+}

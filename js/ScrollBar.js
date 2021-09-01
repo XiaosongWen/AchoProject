@@ -77,10 +77,15 @@ class ScrollBar{
         this.verticalBarMouseMoveHandler = this.verticalBarMouseMove.bind(this);
         this.verticalBar.onpointerdown = this.verticalBarOnClick.bind(this);
         this.verticalBar.onmousedown = this.verticalBarOnMouseDown.bind(this);
+        // this.verticalBar.addEventListener("mousemove", this.verticalBarMouseMoveHandler, false);
 
         this.horizontalBarMouseMoveHandler = this.horizontalBarMouseMove.bind(this);
         this.horizontalBar.onpointerdown = this.horizontalBarOnClick.bind(this);
         this.horizontalBar.onmousedown = this.horizontalBarOnMouseDown.bind(this);
+        // console.log(this.horizontalBar)
+        // this.view.bindWheel = this.bindWheel.bind(this);
+        // this.view.addEventListener("mousewheel", this.bindWheel, false)
+        // this.
     }
     verticalBarMouseMove(e) {
         this.verticalBarTicker(e.clientY);
@@ -94,7 +99,7 @@ class ScrollBar{
         tickerPosition = Math.min(tickerPosition, this.viewHeight - this.tickerSize - this.barWidth);
         tickerPosition = Math.max(0, tickerPosition);    
         
-        this.verticalTicker.style.top = tickerPosition + "px";    
+        this.verticalTicker.style.top = tickerPosition - 30 + "px";    
         let verticalPercentage = tickerPosition / this.viewHeight;    
         let verticalMove = verticalPercentage * this.outOfViewHeight;
         this.childView.style.top = -1 * verticalMove + "px";        
@@ -118,11 +123,15 @@ class ScrollBar{
         this.horizontalBar.setPointerCapture(e.pointerId);
     }
     verticalBarOnMouseDown(e){
+        console.log(e.clientY)
         e.target.addEventListener("mousemove", this.verticalBarMouseMoveHandler, false);
         this.verticalBarTicker(e.clientY);
     }
     horizontalBarOnMouseDown(e){
         e.target.addEventListener("mousemove", this.horizontalBarMouseMoveHandler, false);
         this.horizontalBarTicker(e.clientX);
+    }
+    bindWheel(e){
+        console.log("bindWheel", e);
     }
 }
