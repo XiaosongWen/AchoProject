@@ -1,62 +1,56 @@
 class TableRender {
-  constructor(view, viewSize, headers, data, rowHeight, cellWidth) {
+  constructor(header, view, viewSize, headers, data, size) {
+    this.header = header;
     this.view = view;
     this.viewSize = viewSize;
     this.headers = headers
     this.data = data;
-    this.rowHeight = rowHeight;
-    this.cellWidth = cellWidth;
+    this.rowHeight = size.height;
+    this.cellWidth = size.width;
 
     this.startVisibleRow = 0;
-    this.endVisibleRow = viewSize.height / rowHeight;
+    this.endVisibleRow = viewSize.height / this.rowHeight;
     this.startVisibleCol = 0;
-    this.endVisibleCol = viewSize.width / cellWidth;
+    this.endVisibleCol = viewSize.width / this.cellWidth;
     
     this.renderHeader();
     this.render();
   }
   getSize() {
     let size = { width: 0, height: 0 };
-    size.width = this.cellWidth * (this.headers.length + 1);
+    size.width = this.cellWidth * (this.headers.length);
     size.height = this.rowHeight * (this.data.length + 1);    
     return size;
   }
 
   renderRow(startVisible, endVisible){    
     this.startVisibleRow = Math.floor(startVisible / this.rowHeight);
-    this.endVisibleRow = Math.ceil(endVisible / this.rowHeight);
-    this.renderHeader();
+    this.endVisibleRow = Math.floor(endVisible / this.rowHeight);
+    // this.renderHeader();
     this.render();
   }
   renderCol(startVisible, endVisible){
     this.startVisibleCol = Math.floor(startVisible / this.cellWidth);
-    this.endVisibleCol = Math.ceil(endVisible / this.cellWidth);
+    this.endVisibleCol = Math.floor(endVisible / this.cellWidth);
     this.renderHeader();
     this.render();
   }
   renderHeader(){
     // clear
-    if (this.headerDivs != undefined) {
-      this.headerDivs.forEach((header) => {
-        this.view.parentElement.removeChild(header);
-      });
-    }
-    
-    this.headerDivs = [];
-    let left = 0;
-    let top = 0;
+    this.header.innerHTML = "";
+
+    let left = this.startVisibleCol * this.cellWidth;
+
     for (let i = this.startVisibleCol; i <= this.endVisibleCol; i++) {
       let cell = document.createElement("div");
-      cell.className = "cell"
-      cell.style.top = top + "px";
+      cell.className = "cell headerCell"
+      cell.style.top = "0px";
       cell.style.left = left + "px";
       cell.style.height = this.rowHeight + "px";
       cell.style.width = this.cellWidth + "px";     
       cell.appendChild(document.createTextNode(this.headers[i]));
       
-      this.view.parentElement.appendChild(cell);
-      this.headerDivs.push(cell);
-
+      this.header.appendChild(cell);      
       left += this.cellWidth;
     }
   }
@@ -66,12 +60,12 @@ class TableRender {
     this.view.innerHTML = "";
     //calculate the render window
     let firstRow = this.startVisibleRow;
-    let lastRow = Math.min(this.endVisibleRow + 1, this.data.length - 1);
+    let lastRow = Math.min(this.endVisibleRow, this.data.length - 1);
     let firstCol = this.startVisibleCol;
-    let endCol = Math.min(this.endVisibleCol + 1, this.headers.length-1);
+    let endCol = Math.min(this.endVisibleCol, this.headers.length-1);
     
     //pos for first cell
-    let left = 0;
+    let left = firstCol * this.cellWidth;
     let top = this.rowHeight + firstRow * this.rowHeight;
     
     for (let i = firstRow; i <= lastRow; i++) {
@@ -89,9 +83,9 @@ class TableRender {
 
         left += this.cellWidth;
       }
-      left = 0;
+      left = firstCol * this.cellWidth;
       top += this.rowHeight;
     }
-  }
-  
+    // console.log(this.view)
+  }  
 }

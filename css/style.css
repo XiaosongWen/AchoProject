@@ -1,37 +1,57 @@
 #table{
-    width: 90%;
-    height:90%;
+    width: 1030px;
+    height:660px;
     overflow:hidden;
     position:absolute;
     border: 1px solid #0c0c0c
 }
-#tableContainer{
-    position:absolute
+#tableHeader{
+    position:absolute;
+    width: 1000px;
+    height:30px;
+    /* border: 1px solid #0c0c0c */
+    z-index: 1000;
 }
+#tableContainer{
+    position:absolute;
+    width: 1000px;
+    height: 500px;
+    top: 30px;
+}
+#verticalBar{
+    position:absolute;
+    top: 30px;
+    right:1030px;
+}
+
 .cell{
     position: absolute;
     overflow: hidden;
     background-color: white;
     border: 1px solid #dddddd;
     color: #aaaaaa;
-    width: 150px;
+    width: 100px;
+    height:30px;
     text-align: center;                
     font-family: Arial;
-    font-size: "10pt";
-}           
+    font-size: 1em;
+}            
 
 .scrollBar{
     position: absolute;
     background-color: #dddddd;
     border: 1px solid #aaaaaa;
-    cursor: default;
-    top: 0px;
-    z-index: 10;
+    /* cursor: default; */
+    /* top: 0px; */
+    /* height: ; */
+    
+    z-index: 100;
 }
 .ticker{
     position: absolute;
     background-color: #0c0c0c;
     left: 0px;
     top: 0px;
-    z-index: 15;
+    
+    z-index: 1500;
 }

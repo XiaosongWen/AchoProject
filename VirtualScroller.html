@@ -8,40 +8,70 @@
         <!-- <script type="text/javascript" src="/js/DataGenerator.js" > </script> -->
         <script type="text/javascript" src="/js/TableRender.js" > </script>
         <script type="text/javascript" src="/js/ScrollBar.js" > </script>
+
+        <script type="text/javascript" src="/js/ScrollBar_sim.js" > </script>
+        <script type="text/javascript" src="/js/Renderer.js" > </script>
+
         <link href="/css/style.css" rel="stylesheet" type="text/css"/>         
             
         
         <script type = "text/javascript">
+            var cellSize = {height : 30, width : 100};
             $.ajax({
-                url: 'acho_export_virtual_scroll.csv',
+                url: "acho_export_virtual_scroll.csv",
+                type: 'GET',
                 dataType: 'text',
+                cors: true ,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }          
             }).done(successFunction);
             
             function successFunction(csv){
                 let results = Papa.parse(csv)
                 let headers = results.data[0];
                 let data = results.data.slice(1);
-                // console.log(headers);
-                // console.log(data);
-                new VirtualScroller(headers, data);
+                let vs = new VirtualScroller(headers, data);
+                vs.table.addEventListener("wheel", bindWheel);
+                window.addEventListener("mouseup", remmoveListener)
+
+
+                function bindWheel(e){
+                    if (e.deltaY > 0){
+                        vs.verticalBar.wheelMoveHandler(1);
+                    }else{
+                        vs.verticalBar.wheelMoveHandler(-1);
+                    }
+                    e.preventDefault();
+                } 
+                function remmoveListener(e){                    
+                    // vs.vBars.remmoveListenerHander(e);
+                    vs.verticalBar.remmoveListenerHander(e);
+                    vs.horizontalBar.remmoveListenerHander(e);
+                }
             }
+            
             class VirtualScroller{
                 constructor(headers, data){                    
-                    // let row = 10000;
-                    // let col = 500;
                     this.table = document.getElementById("table");
+                    this.tableHeader = document.getElementById("tableHeader");
                     this.tableContainer = document.getElementById("tableContainer");
                     this.headers = headers;
-                    this.data = data;                    
-                    this.containerSize = {width: table.offsetWidth, height: table.offsetHeight};   
-                    this.tableRenderer = new TableRender(this.tableContainer, this.containerSize, 
-                        this.headers, this.data, 30, 150);                    
-                    this.tableSize = this.tableRenderer.getSize();
-                    this.createVerticalScrollBarAndAddtoViews();
-                }
-                createVerticalScrollBarAndAddtoViews(){                    
-                    let vBar = new ScrollBar(this.tableRenderer)
-                    vBar.attachViews(this.table, this.tableContainer, this.tableSize);
+                    this.data = data;
+
+                    this.containerSize = {width: tableContainer.offsetWidth, height: tableContainer.offsetHeight};   
+                    // this.tableRenderer = new TableRender(this.tableHeader, this.tableContainer, this.containerSize, 
+                    //     this.headers, this.data, cellSize);                    
+                    // this.tableSize = this.tableRenderer.getSize();
+                    this.renderer = new Renderer(data, headers, tableContainer, tableHeader, cellSize);
+                    this.verticalBar = new ScrollBar01("\#verticalBar",
+                                    this.renderer, true, cellSize);
+                    this.horizontalBar = new ScrollBar01("\#horizontalBar",
+                                    this.renderer, false, cellSize)
+
+
+                    // this.vBars = new ScrollBar(this.tableRenderer);
+                    // this.vBars.attachViews(this.table, this.tableHeader, this.tableContainer, this.tableSize);
                 }
             }
         </script>
@@ -49,7 +79,17 @@
     </head>
     <body>
         <div id="table">
-            <div id="tableContainer"></div>
+            <div id = "tableHeader"></div>
+            <div id = "tableContainer"></div>
+            <div id = "verticalBar" class = "scrollBar"
+                style="left: 1000px; top:30px; height: 600px; width: 30px;">
+                <div id = "verticalTicker" class = "ticker" style="width: 30px; height: 20px;"></div>
+            </div>
+            <div id = "horizontalBar" class = "scrollBar" 
+                    style="left: 0px; top: 630px; height: 30px; width: 1000px;" >
+                <div id = "horizontalTicker" class = "ticker" style="width: 20px; height: 30px;"></div>
+            </div>
+            
         </div>
     </body>
 </html>
