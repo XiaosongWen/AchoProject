@@ -4,11 +4,9 @@
         <title>Acho Interview Project</title>        
         <script type="text/javascript" src="./js/jquery-3.6.0.js"></script>
         <script type="text/javascript" src="./js/papaparse.min.js"></script>
-
         <script type="text/javascript" src="./js/ScrollBar_sim.js" > </script>
         <script type="text/javascript" src="./js/Renderer.js" > </script>
-
-        <link href="./css/style.css" rel="stylesheet" type="text/css"/>         
+        <link href="./css/style.css" rel="stylesheet" type="text/css"/>       
             
         
         <script type = "text/javascript">
@@ -47,8 +45,8 @@
                     }
                 }
                 function move(e){
-                    vs.verticalBar.auxChange(e.clientY - preY);
-                    vs.horizontalBar.auxChange(e.clientX - preX);
+                    vs.verticalBar.auxChange((e.clientY - preY)/80);
+                    vs.horizontalBar.auxChange((e.clientX - preX)/40);
                 }
 
                 function bindWheel(e){      
