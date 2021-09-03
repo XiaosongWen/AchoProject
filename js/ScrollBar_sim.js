@@ -1,5 +1,5 @@
 class ScrollBar01{
-    constructor(name, renderer, isVertical, cellSize){
+    constructor(name, renderer, isVertical, cellSize, usingCache=true){
         this.name = name;
         this.bar = document.querySelector(name);
         this.ticker = this.bar.querySelector(".ticker");
@@ -14,6 +14,30 @@ class ScrollBar01{
 
         if (isVertical){
             this.wheelMoveHandler = this.wheelMove.bind(this);
+        }
+        
+        this.tickerPrePos = 0;
+
+        this.usingCache = usingCache
+        if (usingCache){
+            this.setUpTicker();
+        }
+    }
+    setUpTicker(){
+        let cache = this.tableRenderer.cache;
+        
+        if (this.isVertical){
+            let end = cache.cached.endRow;
+            let tickerSize = cache.totalRowsToDisplay / end;
+            let tickerPos = cache.windowDisplay.startVisibleRow / end;
+            this.ticker.style.height = this.bar.clientHeight * tickerSize + "px";
+            this.ticker.style.top = this.bar.clientHeight * tickerPos + "px";
+        }else{
+            let end = cache.cached.endCol;
+            let tickerSize = cache.totalColsToDisplay / end;
+            let tickerPos = cache.windowDisplay.startVisibleCol / end;
+            this.ticker.style.width = this.bar.clientWidth * tickerSize + "px";
+            this.ticker.style.left = this.bar.clientWidth * tickerPos + "px";
         }
     }
     mouseMove(e){
@@ -55,8 +79,14 @@ class ScrollBar01{
             max = this.bar.clientWidth - this.ticker.clientWidth;
             pos = Math.min(pos, max);
             this.ticker.style.left = pos + "px";
+            console.log(pos)
         }
-        let percentage = pos / max;
-        this.tableRenderer.renderTable(percentage, this.isVertical);
+        // let percentage = pos / max;
+        if (this.usingCache){
+            this.tableRenderer.virtualrenderTable((pos - this.tickerPrePos)/max, this.isVertical);       
+            this.tickerPrePos = pos;
+        }else{
+            this.tableRenderer.renderTable(pos / max, this.isVertical);
+        }
     }
 }

@@ -15,7 +15,7 @@
 #tableContainer{
     position:absolute;
     width: 1000px;
-    height: 500px;
+    height: 600px;
     top: 30px;
 }
 #verticalBar{
@@ -40,11 +40,7 @@
 .scrollBar{
     position: absolute;
     background-color: #dddddd;
-    border: 1px solid #aaaaaa;
-    /* cursor: default; */
-    /* top: 0px; */
-    /* height: ; */
-    
+    border: 1px solid #aaaaaa;    
     z-index: 100;
 }
 .ticker{
@@ -52,6 +48,7 @@
     background-color: #0c0c0c;
     left: 0px;
     top: 0px;
-    
+    width:30px;
+    height:30px;
     z-index: 1500;
 }

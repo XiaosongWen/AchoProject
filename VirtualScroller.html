@@ -3,16 +3,16 @@
     <head>
         <meta charset="utf-8" />
         <title>Acho Interview Project</title>        
-        <script type="text/javascript" src="/js/jquery-3.6.0.js"></script>
-        <script type="text/javascript" src="/js/papaparse.min.js"></script>
+        <script type="text/javascript" src="./js/jquery-3.6.0.js"></script>
+        <script type="text/javascript" src="./js/papaparse.min.js"></script>
         <!-- <script type="text/javascript" src="/js/DataGenerator.js" > </script> -->
-        <script type="text/javascript" src="/js/TableRender.js" > </script>
-        <script type="text/javascript" src="/js/ScrollBar.js" > </script>
+        <!-- <script type="text/javascript" src="/js/TableRender.js" > </script> -->
+        <!-- <script type="text/javascript" src="/js/ScrollBar.js" > </script> -->
 
-        <script type="text/javascript" src="/js/ScrollBar_sim.js" > </script>
-        <script type="text/javascript" src="/js/Renderer.js" > </script>
+        <script type="text/javascript" src="./js/ScrollBar_sim.js" > </script>
+        <script type="text/javascript" src="./js/Renderer_withCache.js" > </script>
 
-        <link href="/css/style.css" rel="stylesheet" type="text/css"/>         
+        <link href="./css/style.css" rel="stylesheet" type="text/css"/>         
             
         
         <script type = "text/javascript">
@@ -38,14 +38,13 @@
 
                 function bindWheel(e){
                     if (e.deltaY > 0){
-                        vs.verticalBar.wheelMoveHandler(1);
+                        vs.verticalBar.wheelMoveHandler(50);
                     }else{
-                        vs.verticalBar.wheelMoveHandler(-1);
+                        vs.verticalBar.wheelMoveHandler(-50);
                     }
                     e.preventDefault();
                 } 
                 function remmoveListener(e){                    
-                    // vs.vBars.remmoveListenerHander(e);
                     vs.verticalBar.remmoveListenerHander(e);
                     vs.horizontalBar.remmoveListenerHander(e);
                 }
@@ -58,20 +57,16 @@
                     this.tableContainer = document.getElementById("tableContainer");
                     this.headers = headers;
                     this.data = data;
-
                     this.containerSize = {width: tableContainer.offsetWidth, height: tableContainer.offsetHeight};   
-                    // this.tableRenderer = new TableRender(this.tableHeader, this.tableContainer, this.containerSize, 
-                    //     this.headers, this.data, cellSize);                    
-                    // this.tableSize = this.tableRenderer.getSize();
-                    this.renderer = new Renderer(data, headers, tableContainer, tableHeader, cellSize);
+
+                    this.renderer = new RendererWithCache(data, headers, tableContainer, tableHeader, cellSize);
                     this.verticalBar = new ScrollBar01("\#verticalBar",
                                     this.renderer, true, cellSize);
                     this.horizontalBar = new ScrollBar01("\#horizontalBar",
                                     this.renderer, false, cellSize)
 
-
-                    // this.vBars = new ScrollBar(this.tableRenderer);
-                    // this.vBars.attachViews(this.table, this.tableHeader, this.tableContainer, this.tableSize);
+                    this.renderer.addScrollBar(this.verticalBar, this.horizontalBar);
+                    
                 }
             }
         </script>
@@ -83,11 +78,11 @@
             <div id = "tableContainer"></div>
             <div id = "verticalBar" class = "scrollBar"
                 style="left: 1000px; top:30px; height: 600px; width: 30px;">
-                <div id = "verticalTicker" class = "ticker" style="width: 30px; height: 20px;"></div>
+                <div id = "verticalTicker" class = "ticker" ></div>
             </div>
             <div id = "horizontalBar" class = "scrollBar" 
                     style="left: 0px; top: 630px; height: 30px; width: 1000px;" >
-                <div id = "horizontalTicker" class = "ticker" style="width: 20px; height: 30px;"></div>
+                <div id = "horizontalTicker" class = "ticker" ></div>
             </div>
             
         </div>
