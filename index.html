@@ -8,9 +8,9 @@
         <script type="text/javascript" src="./js/Renderer.js" > </script>
         <link href="./css/style.css" rel="stylesheet" type="text/css"/>       
             
-        
+    
         <script type = "text/javascript">
-            var cellSize = {height : 30, width : 100};
+            var cellSize = {height : 60, width : 150};
             $.ajax({
                 url: "acho_export_virtual_scroll.csv",
                 type: 'GET',
@@ -26,31 +26,9 @@
                 let headers = results.data[0];
                 let data = results.data.slice(1);
                 let vs = new VirtualScroller(headers, data);
-                vs.table.addEventListener("wheel", bindWheel);
-                vs.table.addEventListener("auxclick", hello);
+                vs.table.addEventListener("wheel", bindWheel);                
                 window.addEventListener("mouseup", remmoveListener)
-                var auxStatus = true;
-                let preX = 0;
-                let preY = 0;
-                function hello(e){                    
-                    // console.log("click hello", auxStatus)                    
-                    if (auxStatus){
-                        window.addEventListener("mousemove", move)
-                        preX = e.clientX;
-                        preY = e.clientY;
-                        auxStatus = false;
-                    }else{
-                        window.removeEventListener("mousemove", move)
-                        auxStatus = true;
-                    }
-                }
-                function move(e){
-                    vs.verticalBar.auxChange((e.clientY - preY)/80);
-                    vs.horizontalBar.auxChange((e.clientX - preX)/40);
-                }
-
-                function bindWheel(e){      
-                    // console.log("bindWheel")              
+                function bindWheel(e){
                     if (e.deltaY > 0){
                         vs.verticalBar.wheelMoveHandler(1);
                     }else{
@@ -58,12 +36,9 @@
                     }
                     e.preventDefault();
                 } 
-                function remmoveListener(e){  
-                    // console.log("remmoveListener")                       
+                function remmoveListener(e){                                        
                     vs.verticalBar.remmoveListenerHander(e);
                     vs.horizontalBar.remmoveListenerHander(e);
-                    window.removeEventListener("mousemove", move);
-                    // auxStatus = false;
                 }
             }
             
@@ -82,10 +57,6 @@
                                     this.renderer, true, cellSize, this.usingCache);
                     this.horizontalBar = new ScrollBar01("\#horizontalBar",
                                     this.renderer, false, cellSize, this.usingCache)
-
-
-                    // this.vBars = new ScrollBar(this.tableRenderer);
-                    // this.vBars.attachViews(this.table, this.tableHeader, this.tableContainer, this.tableSize);
                 }
             }
         </script>
@@ -94,9 +65,9 @@
     <body>
         <div id="table">
             <div id = "tableHeader"></div>
-            <div id = "tableContainer"></div>
+            <div id = "tableContainer" style="top:60px;"></div>
             <div id = "verticalBar" class = "scrollBar"
-                style="left: 1000px; top:30px; height: 600px; width: 30px;">
+                style="left: 1000px; top:60px; height: 570px; width: 30px;">
                 <div id = "verticalTicker" class = "ticker" style="width: 30px; height: 20px;"></div>
             </div>
             <div id = "horizontalBar" class = "scrollBar" 

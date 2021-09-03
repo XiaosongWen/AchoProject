@@ -8,15 +8,15 @@
 #tableHeader{
     position:absolute;
     width: 1000px;
-    height:30px;
+    height:60px;
     /* border: 1px solid #0c0c0c */
-    z-index: 1000;
+    z-index: 500;
 }
 #tableContainer{
     position:absolute;
     width: 1000px;
     height: 600px;
-    top: 30px;
+    top: 60px;
 }
 #verticalBar{
     position:absolute;
@@ -30,8 +30,8 @@
     background-color: white;
     border: 1px solid #dddddd;
     color: #aaaaaa;
-    width: 100px;
-    height:30px;
+    width: 150px;
+    height:60px;
     text-align: center;                
     font-family: Arial;
     font-size: 1em;
@@ -41,7 +41,7 @@
     position: absolute;
     background-color: #dddddd;
     border: 1px solid #aaaaaa;    
-    z-index: 100;
+    z-index: 1000;
 }
 .ticker{
     position: absolute;

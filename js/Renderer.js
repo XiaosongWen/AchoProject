@@ -56,7 +56,7 @@ class Renderer{
         this.header.innerHTML = "";
         let left = this.colOffset;
 
-        for (let i = this.startVisibleCol; i < this.endVisibleCol; i++) {
+        for (let i = this.startVisibleCol; i <= this.endVisibleCol; i++) {
             let cell = document.createElement("div");
             cell.className = "cell"
             cell.style.left = left + "px";
@@ -67,17 +67,12 @@ class Renderer{
     }
     render(){
         this.table.innerHTML = "";
-        //calculate the render window
-        
-       
-        
-        //pos for first cell
         let left = this.colOffset;
         let top = this.rowOffset;
         
-        for (let i = this.startVisibleRow; i < this.endVisibleRow; i++) {
+        for (let i = this.startVisibleRow; i <=this.endVisibleRow; i++) {
             let row = this.data[i];
-            for (let j = this.startVisibleCol; j < this.endVisibleCol; j++) {
+            for (let j = this.startVisibleCol; j <=this.endVisibleCol; j++) {
                 let field = row[j];
                 let cell = document.createElement("div");
                 cell.className = "cell";

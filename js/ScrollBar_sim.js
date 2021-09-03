@@ -19,27 +19,27 @@ class ScrollBar01{
         this.tickerPrePos = 0;
 
         this.usingCache = usingCache
-        if (usingCache){
-            this.UpDateTicker();
-        }
+        // if (usingCache){
+        //     this.UpDateTicker();
+        // }
     }
-    UpDateTicker(){
-        let cache = this.tableRenderer.cache;
+    // UpDateTicker(){
+    //     let cache = this.tableRenderer.cache;
         
-        if (this.isVertical){
-            let end = cache.cached.endRow;
-            let tickerSize = cache.totalRowsToDisplay / end;
-            let tickerPos = cache.windowDisplay.startVisibleRow / end;
-            this.ticker.style.height = this.bar.clientHeight * tickerSize + "px";
-            this.ticker.style.top = this.bar.clientHeight * tickerPos + "px";
-        }else{
-            let end = cache.cached.endCol;
-            let tickerSize = cache.totalColsToDisplay / end;
-            let tickerPos = cache.windowDisplay.startVisibleCol / end;
-            this.ticker.style.width = this.bar.clientWidth * tickerSize + "px";
-            this.ticker.style.left = this.bar.clientWidth * tickerPos + "px";
-        }
-    }
+    //     if (this.isVertical){
+    //         let end = cache.cached.endRow;
+    //         let tickerSize = cache.totalRowsToDisplay / end;
+    //         let tickerPos = cache.windowDisplay.startVisibleRow / end;
+    //         this.ticker.style.height = this.bar.clientHeight * tickerSize + "px";
+    //         this.ticker.style.top = this.bar.clientHeight * tickerPos + "px";
+    //     }else{
+    //         let end = cache.cached.endCol;
+    //         let tickerSize = cache.totalColsToDisplay / end;
+    //         let tickerPos = cache.windowDisplay.startVisibleCol / end;
+    //         this.ticker.style.width = this.bar.clientWidth * tickerSize + "px";
+    //         this.ticker.style.left = this.bar.clientWidth * tickerPos + "px";
+    //     }
+    // }
     mouseMove(e){
         if (this.isVertical){
             this.setTickerPos(e.clientY-50);
@@ -68,16 +68,16 @@ class ScrollBar01{
         this.setTickerPos(this.ticker.offsetTop+dy)
     }
     auxChange(d){
-        if (this.isVertical){
+        // if (this.isVertical){
             
-            console.log("y",d)
+        //     console.log("y",d)
             
-            // this.setTickerPos(this.tickerPrePos + d);
-        }else{
-            console.log("x", d)
+        //     // this.setTickerPos(this.tickerPrePos + d);
+        // }else{
+        //     console.log("x", d)
             
-        }
-        this.setTickerPos(this.tickerPrePos + d);
+        // }
+        // this.setTickerPos(this.tickerPrePos + d);
     }
     setTickerPos(pos){
         pos = Math.max(0, pos);
@@ -92,8 +92,9 @@ class ScrollBar01{
             this.ticker.style.left = pos + "px";
         }
         // let percentage = pos / max;
+        
         if (this.usingCache){
-            this.tableRenderer.virtualrenderTable((pos - this.tickerPrePos)/max, this.isVertical);       
+            this.tableRenderer.virtualrenderTable(pos/max, this.isVertical);       
             this.tickerPrePos = pos;
         }else{
             this.tableRenderer.renderTable(pos / max, this.isVertical);
