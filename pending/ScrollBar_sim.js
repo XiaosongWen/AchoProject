@@ -41,6 +41,7 @@ class ScrollBar01{
     //     }
     // }
     mouseMove(e){
+        console.log(e);
         if (this.isVertical){
             this.setTickerPos(e.clientY-50);
         }else{
@@ -56,10 +57,14 @@ class ScrollBar01{
         }
     }
     onMouseDown(){
+        console.log("aaaaa")
         this.bar.addEventListener("mousemove", this.mouseMoveHandler, false);
+
+        document.querySelector("#table").addEventListener("mousemove", this.mouseMoveHandler, false);
     }
     onMouseUp(){
         this.bar.removeEventListener("mousemove", this.mouseMoveHandler, false);
+        // document.addEventListener("mousemove", this.mouseMoveHandler, false);
     }
     remmoveListener(){
         this.onMouseUp();

@@ -56,10 +56,13 @@ class ScrollBar01{
         }
     }
     onMouseDown(){
+        // console.log("mouse")
         this.bar.addEventListener("mousemove", this.mouseMoveHandler, false);
+        document.addEventListener("mousemove", this.mouseMoveHandler, false);
     }
     onMouseUp(){
         this.bar.removeEventListener("mousemove", this.mouseMoveHandler, false);
+        document.removeEventListener("mousemove", this.mouseMoveHandler, false);
     }
     remmoveListener(){
         this.onMouseUp();
