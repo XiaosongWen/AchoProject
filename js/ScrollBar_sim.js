@@ -20,10 +20,10 @@ class ScrollBar01{
 
         this.usingCache = usingCache
         if (usingCache){
-            this.setUpTicker();
+            this.UpDateTicker();
         }
     }
-    setUpTicker(){
+    UpDateTicker(){
         let cache = this.tableRenderer.cache;
         
         if (this.isVertical){
@@ -67,7 +67,18 @@ class ScrollBar01{
     wheelMove(dy){        
         this.setTickerPos(this.ticker.offsetTop+dy)
     }
-    
+    auxChange(d){
+        if (this.isVertical){
+            
+            console.log("y",d)
+            
+            // this.setTickerPos(this.tickerPrePos + d);
+        }else{
+            console.log("x", d)
+            
+        }
+        this.setTickerPos(this.tickerPrePos + d);
+    }
     setTickerPos(pos){
         pos = Math.max(0, pos);
         let max = 0;
@@ -79,7 +90,6 @@ class ScrollBar01{
             max = this.bar.clientWidth - this.ticker.clientWidth;
             pos = Math.min(pos, max);
             this.ticker.style.left = pos + "px";
-            console.log(pos)
         }
         // let percentage = pos / max;
         if (this.usingCache){

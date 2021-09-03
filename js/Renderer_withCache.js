@@ -25,8 +25,27 @@ class Cache{
         this.windowDisplay.endVisibleRow += dX;
         this.windowDisplay.startVisibleCol += dY;
         this.windowDisplay.endVisibleCol += dY;
-        return (this.windowDisplay.endVisibleRow >= this.cached.endRow 
-            || this.windowDisplay.endVisibleCol >= this.cached.endCol);
+        if (this.windowDisplay.endVisibleRow >= this.cached.endRow 
+            || this.windowDisplay.endVisibleCol >= this.cached.endCol){
+                console.log("recaching")
+                this.computNewCache();
+                return true;
+            }
+        return false;
+    }
+    computNewCache(){
+        if (this.windowDisplay.endVisibleRow >= this.cached.endRow){
+            this.cached.startRow = this.cached.endRow - Math.floor(this.totalRowsToDisplay/2);
+            this.cached.endRow = this.cached.startRow + this.rowsToCache;
+            this.windowDisplay.startVisibleRow = this.cached.startRow;
+            this.windowDisplay.endVisibleRow = this.cached.startRow + this.totalRowsToDisplay;
+            
+        }else{
+            this.cached.starCol = this.cached.endCol - Math.floor(this.totalColsToDisplay/2);
+            this.cached.endCol = this.cached.starCol + this.colsToCache;  
+            this.windowDisplay.startVisibleCol = this.cached.starCol;
+            this.windowDisplay.endVisibleCol = this.cached.startRow + this.totalColsToDisplay;          
+        }
     }
 }
 class RendererWithCache{
@@ -86,7 +105,9 @@ class RendererWithCache{
             // this.renderHeader();
         }
         if (this.cache.moveVirtualWindow(this.rowOffset / this.cellHeight, this.colOffset)){
-            CacheDoms();
+            this.CacheDoms();
+            this.verticalBar.UpDateTicker();
+            this.horizontalBar.UpDateTicker();
         }
         this.virtualRender();
     }
@@ -116,6 +137,7 @@ class RendererWithCache{
         }
         this.render();        
     }
+
     renderHeader(){
         this.header.innerHTML = "";
         let left = this.colOffset;
@@ -129,6 +151,7 @@ class RendererWithCache{
             left += this.cellWidth;
         }
     }
+
     render(){
         this.table.innerHTML = "";        
         let left = this.colOffset;

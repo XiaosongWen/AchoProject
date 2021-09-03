@@ -29,10 +29,30 @@
                 let data = results.data.slice(1);
                 let vs = new VirtualScroller(headers, data);
                 vs.table.addEventListener("wheel", bindWheel);
+                vs.table.addEventListener("auxclick", hello);
                 window.addEventListener("mouseup", remmoveListener)
+                var auxStatus = true;
+                let preX = 0;
+                let preY = 0;
+                function hello(e){                    
+                    // console.log("click hello", auxStatus)                    
+                    if (auxStatus){
+                        window.addEventListener("mousemove", move)
+                        preX = e.clientX;
+                        preY = e.clientY;
+                        auxStatus = false;
+                    }else{
+                        window.removeEventListener("mousemove", move)
+                        auxStatus = true;
+                    }
+                }
+                function move(e){
+                    vs.verticalBar.auxChange(e.clientY - preY);
+                    vs.horizontalBar.auxChange(e.clientX - preX);
+                }
 
-
-                function bindWheel(e){
+                function bindWheel(e){      
+                    // console.log("bindWheel")              
                     if (e.deltaY > 0){
                         vs.verticalBar.wheelMoveHandler(1);
                     }else{
@@ -40,9 +60,12 @@
                     }
                     e.preventDefault();
                 } 
-                function remmoveListener(e){                    
+                function remmoveListener(e){  
+                    // console.log("remmoveListener")                       
                     vs.verticalBar.remmoveListenerHander(e);
                     vs.horizontalBar.remmoveListenerHander(e);
+                    window.removeEventListener("mousemove", move);
+                    // auxStatus = false;
                 }
             }
             
